@@ -13,3 +13,10 @@ variable "folder_id" {
   type        = string
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
 }
+/*
+variable "service_account_id" {
+  type = string
+  description = "https://yandex.cloud/ru/docs/iam/operations/sa/get-id#cli_1"
+  
+}
+*/
