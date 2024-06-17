@@ -20,3 +20,8 @@ variable "service_account_id" {
   
 }
 */
+
+variable "public_key" {
+  type        = string
+  description = "ssh ed25519 public key"
+}
