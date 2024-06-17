@@ -15,12 +15,12 @@ resource "yandex_vpc_subnet" "zone2" {
   name           = "zone2"
   zone           = "ru-central1-b"
   network_id     = yandex_vpc_network.diplom-vpc.id
-  v4_cidr_blocks = ["192.168.10.0/24"]
+  v4_cidr_blocks = ["192.168.100.0/24"]
 }
 
 resource "yandex_vpc_subnet" "zone3" {
   name           = "zone3"
-  zone           = "ru-central1-c"
+  zone           = "ru-central1-d"
   network_id     = yandex_vpc_network.diplom-vpc.id
-  v4_cidr_blocks = ["192.168.10.0/24"]
+  v4_cidr_blocks = ["192.168.200.0/24"]
 }
