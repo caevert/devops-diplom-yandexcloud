@@ -25,3 +25,9 @@ variable "public_key" {
   type        = string
   description = "ssh ed25519 public key"
 }
+
+variable "image_id" {
+  type        = string
+  default     = "fd8e5oous6ulsjrcclqf"
+  description = "Ubuntu 24.04 LTS"
+}
