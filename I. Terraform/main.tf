@@ -5,7 +5,7 @@ resource "yandex_compute_instance" "master-node" {
   zone        = "ru-central1-d"
   resources {
     cores         = 2
-    memory        = 2
+    memory        = 4
     core_fraction = 20
   }
   boot_disk {
@@ -16,7 +16,7 @@ resource "yandex_compute_instance" "master-node" {
     }
   }
   scheduling_policy {
-    preemptible = true
+    #  preemptible = true
   }
   network_interface {
     subnet_id = yandex_vpc_subnet.zone3.id
@@ -34,7 +34,7 @@ resource "yandex_compute_instance" "worker-node1" {
   zone        = "ru-central1-b"
   resources {
     cores         = 2
-    memory        = 1
+    memory        = 2
     core_fraction = 20
   }
   boot_disk {
@@ -49,7 +49,7 @@ resource "yandex_compute_instance" "worker-node1" {
   }
   network_interface {
     subnet_id = yandex_vpc_subnet.zone2.id
-    #nat       = true
+    nat       = true
   }
   metadata = {
     ssh-keys = "ubuntu:${var.public_key}"
@@ -62,7 +62,7 @@ resource "yandex_compute_instance" "worker-node2" {
   zone        = "ru-central1-a"
   resources {
     cores         = 2
-    memory        = 1
+    memory        = 2
     core_fraction = 20
   }
   boot_disk {
@@ -77,7 +77,7 @@ resource "yandex_compute_instance" "worker-node2" {
   }
   network_interface {
     subnet_id = yandex_vpc_subnet.zone1.id
-    #nat       = true
+    nat       = true
   }
   metadata = {
     ssh-keys = "ubuntu:${var.public_key}"

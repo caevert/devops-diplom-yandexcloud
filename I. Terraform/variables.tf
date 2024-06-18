@@ -23,11 +23,11 @@ variable "service_account_id" {
 
 variable "public_key" {
   type        = string
-  description = "ssh ed25519 public key"
+  description = "ssh public key"
 }
 
 variable "image_id" {
   type        = string
-  default     = "fd8e5oous6ulsjrcclqf"
+  default     = "fd8re3hiqnikqr7j7m8s"
   description = "Ubuntu 24.04 LTS"
 }
