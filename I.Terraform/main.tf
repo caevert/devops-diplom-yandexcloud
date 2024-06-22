@@ -10,7 +10,7 @@ resource "yandex_compute_instance" "master-node" {
   }
   boot_disk {
     initialize_params {
-      image_id = "fd80mrhj8fl2oe87o4e1"
+      image_id = var.image_id
       name     = "master-node"
       size     = 50
     }
@@ -67,7 +67,7 @@ resource "yandex_compute_instance" "worker-node2" {
   }
   boot_disk {
     initialize_params {
-      image_id = "fd80mrhj8fl2oe87o4e1"
+      image_id = var.image_id
       name     = "worker-node2"
       size     = 50
     }

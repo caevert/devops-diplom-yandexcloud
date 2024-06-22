@@ -176,6 +176,30 @@ kube-system   nodelocaldns-qphzq                1/1     Running   0          12m
 3. Дашборды в grafana отображающие состояние Kubernetes кластера.
 4. Http доступ к тестовому приложению.
 
+```bash
+kubectl get svc -A
+NAMESPACE     NAME                                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
+default       kubernetes                                       ClusterIP   10.233.0.1      <none>        443/TCP                         121m
+default       nginx-mtool-svc                                  ClusterIP   10.233.43.169   <none>        9001/TCP,9002/TCP               60m
+default       nginx-mtool-svc-np                               NodePort    10.233.48.228   <none>        9001:30080/TCP,9002:31443/TCP   59m
+kube-system   coredns                                          ClusterIP   10.233.0.3      <none>        53/UDP,53/TCP,9153/TCP          118m
+kube-system   kube-prometheus-stack-coredns                    ClusterIP   None            <none>        9153/TCP                        26m
+kube-system   kube-prometheus-stack-kube-controller-manager    ClusterIP   None            <none>        10257/TCP                       26m
+kube-system   kube-prometheus-stack-kube-etcd                  ClusterIP   None            <none>        2381/TCP                        26m
+kube-system   kube-prometheus-stack-kube-proxy                 ClusterIP   None            <none>        10249/TCP                       26m
+kube-system   kube-prometheus-stack-kube-scheduler             ClusterIP   None            <none>        10259/TCP                       26m
+kube-system   kube-prometheus-stack-kubelet                    ClusterIP   None            <none>        10250/TCP,10255/TCP,4194/TCP    105m
+monitoring    alertmanager-operated                            ClusterIP   None            <none>        9093/TCP,9094/TCP,9094/UDP      26m
+monitoring    grafana-node-port-service                        NodePort    10.233.57.232   <none>        80:30577/TCP                    3s
+monitoring    kube-prometheus-stack-alertmanager               ClusterIP   10.233.54.92    <none>        9093/TCP,8080/TCP               26m
+monitoring    kube-prometheus-stack-grafana                    ClusterIP   10.233.50.129   <none>        80/TCP                          26m
+monitoring    kube-prometheus-stack-kube-state-metrics         ClusterIP   10.233.42.108   <none>        8080/TCP                        26m
+monitoring    kube-prometheus-stack-operator                   ClusterIP   10.233.60.208   <none>        443/TCP                         26m
+monitoring    kube-prometheus-stack-prometheus                 ClusterIP   10.233.47.178   <none>        9090/TCP,8080/TCP               26m
+monitoring    kube-prometheus-stack-prometheus-node-exporter   ClusterIP   10.233.53.212   <none>        9100/TCP                        26m
+monitoring    prometheus-operated                              ClusterIP   None            <none>        9090/TCP                        26m
+monitoring    prometheus-server-ext                            NodePort    10.233.36.75    <none>        9090:30023/TCP                  119s
+```
 ---
 
 ### Установка и настройка CI/CD

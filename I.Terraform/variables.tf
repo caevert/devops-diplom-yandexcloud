@@ -28,6 +28,6 @@ variable "public_key" {
 
 variable "image_id" {
   type        = string
-  default     = "fd8re3hiqnikqr7j7m8s"
-  description = "Ubuntu 24.04 LTS"
+  default     = "fd8p2umr6e4i8n31bfu6"
+  description = "Ubuntu 18.04"
 }
