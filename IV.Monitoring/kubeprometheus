@@ -13,7 +13,7 @@ helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n
 
 
 Exposing Prometheus and Grafana using NodePort services
-Let's run the following command, to expose the Prometheus Kubernetes service:
+Let's run the following command, to expose the Prometheus Kubernetes service
 
 kubectl expose service kube-prometheus-stack-prometheus --type=NodePort --target-port=9090 --name=prometheus-node-port-service
 
