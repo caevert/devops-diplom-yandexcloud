@@ -130,8 +130,6 @@ kube-system   nodelocaldns-nnpvq                1/1     Running   0          12m
 kube-system   nodelocaldns-qphzq                1/1     Running   0          12m
 ```
 
-# TODO
-
 ---
 
 ### Создание тестового приложения
@@ -149,7 +147,12 @@ kube-system   nodelocaldns-qphzq                1/1     Running   0          12m
 Ожидаемый результат:
 
 1. Git репозиторий с тестовым приложением и Dockerfile.
+
+[GitHub repo for my app](https://github.com/Muroway/logomaker-nginx)
+
 2. Регистри с собранным docker image. В качестве регистри может быть DockerHub или [Yandex Container Registry](https://cloud.yandex.ru/services/container-registry), созданный также с помощью terraform.
+
+[Logomaker image in Yandex Container Registry](https://console.yandex.cloud/folders/b1g96o71ipj82qfd6304/container-registry/registries/crphve47f826uus3t4li/overview/logomaker/image)
 
 ---
 
@@ -203,6 +206,8 @@ monitoring    prometheus-server-ext                            NodePort    10.23
 
 ![My Grafana k8s cluster dashboard](./IV.Monitoring/assets/Dashboard%20Grafana.png)
 ---
+
+# TODO
 
 ### Установка и настройка CI/CD
 
