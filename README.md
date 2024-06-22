@@ -200,6 +200,8 @@ monitoring    kube-prometheus-stack-prometheus-node-exporter   ClusterIP   10.23
 monitoring    prometheus-operated                              ClusterIP   None            <none>        9090/TCP                        26m
 monitoring    prometheus-server-ext                            NodePort    10.233.36.75    <none>        9090:30023/TCP                  119s
 ```
+
+![My Grafana k8s cluster dashboard](./IV.Monitoring/assets/Dashboard%20Grafana.png)
 ---
 
 ### Установка и настройка CI/CD
