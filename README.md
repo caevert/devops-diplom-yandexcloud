@@ -207,8 +207,6 @@ monitoring    prometheus-server-ext                            NodePort    10.23
 ![My Grafana k8s cluster dashboard](./IV.Monitoring/assets/Dashboard%20Grafana.png)
 ---
 
-# TODO
-
 ### Установка и настройка CI/CD
 
 Осталось настроить ci/cd систему для автоматической сборки docker image и деплоя приложения при изменении кода.
@@ -216,6 +214,7 @@ monitoring    prometheus-server-ext                            NodePort    10.23
 Цель:
 
 1. Автоматическая сборка docker образа при коммите в репозиторий с тестовым приложением.
+
 2. Автоматический деплой нового docker образа.
 
 Можно использовать [teamcity](https://www.jetbrains.com/ru-ru/teamcity/), [jenkins](https://www.jenkins.io/), [GitLab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/) или GitHub Actions.
@@ -224,7 +223,12 @@ monitoring    prometheus-server-ext                            NodePort    10.23
 
 1. Интерфейс ci/cd сервиса доступен по http.
 2. При любом коммите в репозиторие с тестовым приложением происходит сборка и отправка в регистр Docker образа.
+
+# TODO
+
 3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим label в регистри, а также деплой соответствующего Docker образа в кластер Kubernetes.
+
+[Репозиторий приложения](https://github.com/Muroway/logomaker-nginx)
 
 ---
 

@@ -55,7 +55,7 @@ sudo chown $(id -u):$(id -g) ~/.kube/config
 #https://elatov.github.io/2022/10/using-kubespray-to-install-kubernetes/
 
 sudo apt update
-sudo apt install git software-properties-common build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
+sudo apt install git docker.io software-properties-common build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y
 
 wget https://www.python.org/ftp/python/3.9.19/Python-3.9.19.tgz
 tar -xvf Python-3.9.19.tgz
@@ -119,3 +119,13 @@ kubectl cluster-info
 sleep 120
 kubectl get nodes --sort-by=.metadata.creationTimestamp
 kubectl delete node $(kubectl get nodes -o jsonpath='{.items[?(@.status.conditions[0].status=="Unknown")].metadata.name}')
+
+
+
+#Сохраняем секреты для доступа к Yandex Container Registry и пулла образов
+https://yandex.cloud/ru/docs/container-registry/operations/authentication
+
+kubectl create secret generic docker-yc \
+  --namespace=myapp \
+  --from-file=.dockerconfigjson=$HOME/.docker/config.json \
+  --type=kubernetes.io/dockerconfigjson
