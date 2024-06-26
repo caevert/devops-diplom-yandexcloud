@@ -83,3 +83,13 @@ resource "yandex_compute_instance" "worker-node2" {
     ssh-keys = "ubuntu:${var.public_key}"
   }
 }
+
+#Разворачиваем контейнер registry
+resource "yandex_container_registry" "my-reg" {
+  name = "my-registry"
+  folder_id = "<folder_ID>"
+  labels = {
+    my-label = "my-label-value"
+  }
+}
+
