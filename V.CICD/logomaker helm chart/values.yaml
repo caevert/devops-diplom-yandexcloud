@@ -1,0 +1,4 @@
+container:
+        image: cr.yandex/crphve47f826uus3t4li/logomaker
+        tag: latest
+replicaCount: 2

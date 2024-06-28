@@ -223,12 +223,11 @@ monitoring    prometheus-server-ext                            NodePort    10.23
 
 1. Интерфейс ci/cd сервиса доступен по http.
 2. При любом коммите в репозиторие с тестовым приложением происходит сборка и отправка в регистр Docker образа.
-
-# TODO
-
 3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим label в регистри, а также деплой соответствующего Docker образа в кластер Kubernetes.
 
 [Репозиторий приложения](https://github.com/Muroway/logomaker-nginx)
+
+[CI/CD pipeline для GitHub Actions](https://github.com/Muroway/logomaker-nginx/blob/main/.github/workflows/docker-image.yml)
 
 ---
 

@@ -1,0 +1,13 @@
+apiVersion: v2
+appVersion: 0.0.55
+description: My nginx app for netology graduation project
+keywords:
+- nginx
+- http
+- https
+maintainers:
+- email: drone.64@gmail.com
+  name: Andrew Drutskoy
+name: logomaker
+type: application
+version: 0.0.2
