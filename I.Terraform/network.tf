@@ -1,26 +1,26 @@
 ### Разворачиваем VPC
-resource "yandex_vpc_network" "diplom-vpc" {
+resource "yandex_vpc_network" "diplom-vpc2" {
   name        = "diplom-vpc"
   description = "My diplom project vpc"
 }
 
-resource "yandex_vpc_subnet" "zone1" {
-  name           = "zone1"
-  zone           = "ru-central1-a"
-  network_id     = yandex_vpc_network.diplom-vpc.id
-  v4_cidr_blocks = ["192.168.10.0/24"]
+resource "yandex_vpc_subnet" "master-zone" {
+  name           = "master-zone"
+  zone           = var.master_node_network_settings.default_zone
+  network_id     = yandex_vpc_network.diplom-vpc2.id
+  v4_cidr_blocks = var.master_node_network_settings.v4_cidr_blocks
 }
 
-resource "yandex_vpc_subnet" "zone2" {
-  name           = "zone2"
-  zone           = "ru-central1-b"
-  network_id     = yandex_vpc_network.diplom-vpc.id
-  v4_cidr_blocks = ["192.168.100.0/24"]
+resource "yandex_vpc_subnet" "worker-zone1" {
+  name           = "worker-zone1"
+  zone           = var.worker_node_network_settings-a.default_zone
+  network_id     = yandex_vpc_network.diplom-vpc2.id
+  v4_cidr_blocks = var.worker_node_network_settings-a.v4_cidr_blocks
 }
 
-resource "yandex_vpc_subnet" "zone3" {
-  name           = "zone3"
-  zone           = "ru-central1-d"
-  network_id     = yandex_vpc_network.diplom-vpc.id
-  v4_cidr_blocks = ["192.168.200.0/24"]
+resource "yandex_vpc_subnet" "worker-zone2" {
+  name           = "worker-zone2"
+  zone           = var.worker_node_network_settings-b.default_zone
+  network_id     = yandex_vpc_network.diplom-vpc2.id
+  v4_cidr_blocks = var.worker_node_network_settings-b.v4_cidr_blocks
 }

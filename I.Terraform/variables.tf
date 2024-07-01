@@ -13,21 +13,59 @@ variable "folder_id" {
   type        = string
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
 }
-/*
-variable "service_account_id" {
-  type = string
-  description = "https://yandex.cloud/ru/docs/iam/operations/sa/get-id#cli_1"
-  
-}
-*/
 
-variable "public_key" {
-  type        = string
-  description = "ssh public key"
+variable "ssh_public_key_path" {
+  type    = string
+  default = "~/.ssh/yandex.pub"
 }
 
 variable "image_id" {
   type        = string
   default     = "fd8p2umr6e4i8n31bfu6"
   description = "Ubuntu 18.04"
+}
+
+variable "master_node_resources" {
+  default = {
+    platform_id = "standard-v2"
+    cores = 2
+    memory = 4
+    core_fraction = 20
+    storage_size = 50
+  }
+}
+
+variable "worker_nodes_resources" {
+  default = {
+    platform_id = "standard-v1"
+    cores = 2
+    memory = 2
+    core_fraction = 20
+    storage_size = 50
+  }
+  
+}
+
+variable "master_node_network_settings" {
+  default = {
+    default_zone = "ru-central1-d"
+    v4_cidr_blocks = ["192.168.10.0/24"]
+    ip_address = "192.168.10.100"
+  }  
+}
+
+variable "worker_node_network_settings-a" {
+  default = {
+    default_zone = "ru-central1-a"
+    v4_cidr_blocks = ["192.168.100.0/24"]
+    ip_address = "192.168.100.101"
+  }  
+}
+
+variable "worker_node_network_settings-b" {
+  default = {
+    default_zone = "ru-central1-b"
+    v4_cidr_blocks = ["192.168.200.0/24"]
+    ip_address = "192.168.200.202"
+  }  
 }
