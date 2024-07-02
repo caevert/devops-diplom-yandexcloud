@@ -52,7 +52,10 @@
 Ожидаемые результаты:
 
 1. Terraform сконфигурирован и создание инфраструктуры посредством Terraform возможно без дополнительных ручных действий.
+
 [Конфигурация terraform](I.Terraform/)
+
+![Terraform apply](./assets/Terraform%20apply.png)
 
 ![Service accounts](./assets/Service%20accounts%20YC.png)
 
@@ -78,7 +81,7 @@
   а. С помощью terraform resource для [kubernetes](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/kubernetes_cluster) создать **региональный** мастер kubernetes с размещением нод в разных 3 подсетях
   б. С помощью terraform resource для [kubernetes node group](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/kubernetes_node_group)
   
-[Выбран деплой через kubespray:](II.%20K8s/kubespray.sh)
+Выбран деплой через kubespray:
 
 ```bash
 ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
@@ -247,7 +250,7 @@ kube-system   nodelocaldns-ktjjf                1/1     Running   0          89s
 
 Ожидаемый результат:
 
-Выбрано разворачивание через kube-prometheus:
+Выбрано разворачивание через kube-prometheus-stack:
 
 ```bash
 kubectl create namespace monitoring
@@ -322,6 +325,7 @@ service/grafana-node-port-service exposed
 ## Что необходимо для сдачи задания?
 
 1. Репозиторий с конфигурационными файлами Terraform и готовность продемонстрировать создание всех ресурсов с нуля.
+
 [Репозиторий с конфигурацией Terraform](https://github.com/Muroway/devops-diplom-yandexcloud/tree/main/I.Terraform)
 
 2. Пример pull request с комментариями созданными atlantis'ом или снимки экрана из Terraform Cloud или вашего CI-CD-terraform pipeline.
@@ -330,13 +334,14 @@ service/grafana-node-port-service exposed
 
 3. Репозиторий с конфигурацией ansible, если был выбран способ создания Kubernetes кластера при помощи ansible.
 
-![Конфигурация hosts.yaml для ansible kubespray](https://github.com/Muroway/devops-diplom-yandexcloud/blob/main/II.K8s/hosts.yaml)
+[Конфигурация hosts.yaml для ansible kubespray](https://github.com/Muroway/devops-diplom-yandexcloud/blob/main/II.K8s/hosts.yaml)
 
 4. Репозиторий с Dockerfile тестового приложения и ссылка на собранный docker image.
 
 [Репозиторий c Dockerfile](https://github.com/Muroway/logomaker-nginx/blob/main/Dockerfile)
 
 5. Репозиторий с конфигурацией Kubernetes кластера.
+
 [Конфигурация](https://github.com/Muroway/devops-diplom-yandexcloud/blob/main/II.K8s/kubeconfig)
 
 6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
