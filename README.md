@@ -39,9 +39,6 @@
 
 Предварительная подготовка к установке и запуску Kubernetes кластера.
 
-----
-
-### Переделать
 
 1. Создайте сервисный аккаунт, который будет в дальнейшем использоваться Terraform для работы с инфраструктурой с необходимыми и достаточными правами. Не стоит использовать права суперпользователя
 
@@ -49,7 +46,6 @@
    а. Рекомендуемый вариант: S3 bucket в созданном ЯО аккаунте(создание бакета через TF)
    б. Альтернативный вариант:  [Terraform Cloud](https://app.terraform.io/)
 
-----
 
 3. Создайте VPC с подсетями в разных зонах доступности.
 4. Убедитесь, что теперь вы можете выполнить команды `terraform destroy` и `terraform apply` без дополнительных ручных действий.
@@ -58,6 +54,14 @@
 Ожидаемые результаты:
 
 1. Terraform сконфигурирован и создание инфраструктуры посредством Terraform возможно без дополнительных ручных действий.
+[Конфигурация terraform](I.Terraform/)
+
+![Service accounts](./assets/Service%20accounts%20YC.png)
+
+![S3 backend for terraform tfstate in YC Object Storage](./assets/S3%20backend%20tfstate%20YC.png)
+
+![VMS in YC](./assets/VMs%20in%20YC.png)
+
 2. Полученная конфигурация инфраструктуры является предварительной, поэтому в ходе дальнейшего выполнения задания возможны изменения.
 
 ---
@@ -78,18 +82,89 @@
   
 [Выбран деплой через kubespray:](II.%20K8s/kubespray.sh)
 
+```bash
+ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
+[WARNING]: Skipping callback plugin 'ara_default', unable to load
+
+PLAY [localhost] *****************************************************************
+Tuesday 02 July 2024  08:45:39 +0000 (0:00:00.103)       0:00:00.103 ********** 
+
+TASK [Check 2.11.0 <= Ansible version < 2.13.0] **********************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+Tuesday 02 July 2024  08:45:39 +0000 (0:00:00.027)       0:00:00.130 ********** 
+
+TASK [Check that python netaddr is installed] ************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+Tuesday 02 July 2024  08:45:39 +0000 (0:00:00.078)       0:00:00.209 ********** 
+
+TASK [Check that jinja is not too old (install via pip)] *************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+...
+Tuesday 02 July 2024  09:46:39 +0000 (0:00:00.065)       0:13:46.912 ********** 
+Tuesday 02 July 2024  09:46:39 +0000 (0:00:00.034)       0:13:46.947 ********** 
+Tuesday 02 July 2024  09:46:40 +0000 (0:00:00.035)       0:13:46.982 ********** 
+
+PLAY RECAP ***********************************************************************
+localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+master                     : ok=757  changed=108  unreachable=0    failed=0    skipped=1264 rescued=0    ignored=8   
+worker1                    : ok=541  changed=80   unreachable=0    failed=0    skipped=782  rescued=0    ignored=2   
+worker2                    : ok=541  changed=82   unreachable=0    failed=0    skipped=782  rescued=0    ignored=2   
+
+Tuesday 02 July 2024  09:46:40 +0000 (0:00:00.080)       0:13:47.062 ********** 
+=============================================================================== 
+kubernetes/kubeadm : Join to cluster ------------------------------------- 39.50s
+network_plugin/calico : Wait for calico kubeconfig to be created --------- 33.67s
+download : download_file | Validate mirrors ------------------------------ 25.93s
+kubernetes/control-plane : kubeadm | Initialize first master ------------- 24.01s
+download : download_container | Download image if required --------------- 18.69s
+download : download_container | Download image if required --------------- 18.16s
+etcd : Gen_certs | Write etcd member/admin and kube_control_plane clinet certs to other etcd nodes -- 16.29s
+download : download_container | Download image if required --------------- 15.50s
+download : download_container | Download image if required --------------- 14.83s
+kubernetes/node : install | Copy kubelet binary from download dir -------- 13.77s
+download : download_container | Download image if required --------------- 13.35s
+network_plugin/calico : Calico | Copy calicoctl binary from download dir -- 11.89s
+kubernetes-apps/ansible : Kubernetes Apps | Start Resources -------------- 11.35s
+kubernetes/preinstall : Preinstall | wait for the apiserver to be running --- 9.79s
+download : download_container | Download image if required ---------------- 9.38s
+download : download_container | Download image if required ---------------- 9.29s
+download : download_container | Download image if required ---------------- 8.74s
+download : download_container | Download image if required ---------------- 6.84s
+kubernetes/node : Pre-upgrade | check if kubelet container exists --------- 6.37s
+container-engine/containerd : containerd | Unpack containerd archive ------ 6.24s
+```
+
 Ожидаемый результат:
 
 1. Работоспособный Kubernetes кластер.
+
+```bash
+kubectl get no -A
+NAME      STATUS   ROLES           AGE     VERSION
+master    Ready    control-plane   4m41s   v1.24.6
+worker1   Ready    <none>          3m26s   v1.24.6
+worker2   Ready    <none>          3m26s   v1.24.6
+```
+
 2. В файле `~/.kube/config` находятся данные для доступа к кластеру.
 
 ```bash
-ubuntu@node1:~/kubespray$ cat ~/.kube/config 
+vim ~/.kube/config 
+
 apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: LS0tLS1CR...==
-    server: https://127.0.0.1:6443
+    certificate-authority-data: LS0tLS1CRUdJTiBD...==
+    server: https://158.160.146.180:6443
   name: cluster.local
 contexts:
 - context:
@@ -102,32 +177,32 @@ preferences: {}
 users:
 - name: kubernetes-admin
   user:
-    client-certificate-data: LS0tLS1CRU...==
-    client-key-data: LS0tLS1CRUdJ...=
+    client-certificate-data: LS0tLS1CRUdJTiBDRVJUS...==
+    client-key-data: LS0tLS1CRUdJTiBSU0EgU...==
 ```
 
 3. Команда `kubectl get pods --all-namespaces` отрабатывает без ошибок.
 
 ```bash
-ubuntu@node1:~/kubespray$ kubectl get pods --all-namespaces
+kubectl get pods -A
 NAMESPACE     NAME                              READY   STATUS    RESTARTS   AGE
-kube-system   calico-node-7kpj4                 1/1     Running   0          13m
-kube-system   calico-node-9br6n                 1/1     Running   0          13m
-kube-system   calico-node-hgpxs                 1/1     Running   0          13m
-kube-system   coredns-74d6c5659f-9dr4c          1/1     Running   0          12m
-kube-system   coredns-74d6c5659f-tvzp8          1/1     Running   0          12m
-kube-system   dns-autoscaler-59b8867c86-kt65c   1/1     Running   0          12m
-kube-system   kube-apiserver-node1              1/1     Running   1          15m
-kube-system   kube-controller-manager-node1     1/1     Running   1          15m
-kube-system   kube-proxy-7zspk                  1/1     Running   0          14m
-kube-system   kube-proxy-87qj8                  1/1     Running   0          14m
-kube-system   kube-proxy-s2sp7                  1/1     Running   0          14m
-kube-system   kube-scheduler-node1              1/1     Running   1          15m
-kube-system   nginx-proxy-node2                 1/1     Running   0          12m
-kube-system   nginx-proxy-node3                 1/1     Running   0          13m
-kube-system   nodelocaldns-7k7qs                1/1     Running   0          12m
-kube-system   nodelocaldns-nnpvq                1/1     Running   0          12m
-kube-system   nodelocaldns-qphzq                1/1     Running   0          12m
+kube-system   calico-node-9lqnt                 1/1     Running   0          2m40s
+kube-system   calico-node-fcvwn                 1/1     Running   0          2m40s
+kube-system   calico-node-mz6rw                 1/1     Running   0          2m40s
+kube-system   coredns-74d6c5659f-4t99r          1/1     Running   0          94s
+kube-system   coredns-74d6c5659f-pwcfz          1/1     Running   0          87s
+kube-system   dns-autoscaler-59b8867c86-wbd7k   1/1     Running   0          90s
+kube-system   kube-apiserver-master             1/1     Running   1          4m20s
+kube-system   kube-controller-manager-master    1/1     Running   1          4m21s
+kube-system   kube-proxy-jkx96                  1/1     Running   0          3m10s
+kube-system   kube-proxy-s8hsx                  1/1     Running   0          3m10s
+kube-system   kube-proxy-sj8wj                  1/1     Running   0          3m10s
+kube-system   kube-scheduler-master             1/1     Running   1          4m20s
+kube-system   nginx-proxy-worker1               1/1     Running   0          119s
+kube-system   nginx-proxy-worker2               1/1     Running   0          116s
+kube-system   nodelocaldns-fcrch                1/1     Running   0          89s
+kube-system   nodelocaldns-hxzhp                1/1     Running   0          89s
+kube-system   nodelocaldns-ktjjf                1/1     Running   0          89s
 ```
 
 ---
@@ -148,11 +223,11 @@ kube-system   nodelocaldns-qphzq                1/1     Running   0          12m
 
 1. Git репозиторий с тестовым приложением и Dockerfile.
 
-[GitHub repo for my app](https://github.com/Muroway/logomaker-nginx)
+[Репозиторий моего приложения](https://github.com/Muroway/logomaker-nginx)
 
 2. Регистри с собранным docker image. В качестве регистри может быть DockerHub или [Yandex Container Registry](https://cloud.yandex.ru/services/container-registry), созданный также с помощью terraform.
 
-[Logomaker image in Yandex Container Registry](https://console.yandex.cloud/folders/b1g96o71ipj82qfd6304/container-registry/registries/crphve47f826uus3t4li/overview/logomaker/image)
+![Logomaker image in Yandex Container Registry](./assets/Yandex%20Container%20Registry.png)
 
 ---
 
@@ -174,37 +249,47 @@ kube-system   nodelocaldns-qphzq                1/1     Running   0          12m
 
 Ожидаемый результат:
 
-1. Git репозиторий с конфигурационными файлами для настройки Kubernetes.
-2. Http доступ к web интерфейсу grafana.
-3. Дашборды в grafana отображающие состояние Kubernetes кластера.
-4. Http доступ к тестовому приложению.
+Выбрано разворачивание через kube-prometheus:
 
 ```bash
-kubectl get svc -A
-NAMESPACE     NAME                                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
-default       kubernetes                                       ClusterIP   10.233.0.1      <none>        443/TCP                         121m
-default       nginx-mtool-svc                                  ClusterIP   10.233.43.169   <none>        9001/TCP,9002/TCP               60m
-default       nginx-mtool-svc-np                               NodePort    10.233.48.228   <none>        9001:30080/TCP,9002:31443/TCP   59m
-kube-system   coredns                                          ClusterIP   10.233.0.3      <none>        53/UDP,53/TCP,9153/TCP          118m
-kube-system   kube-prometheus-stack-coredns                    ClusterIP   None            <none>        9153/TCP                        26m
-kube-system   kube-prometheus-stack-kube-controller-manager    ClusterIP   None            <none>        10257/TCP                       26m
-kube-system   kube-prometheus-stack-kube-etcd                  ClusterIP   None            <none>        2381/TCP                        26m
-kube-system   kube-prometheus-stack-kube-proxy                 ClusterIP   None            <none>        10249/TCP                       26m
-kube-system   kube-prometheus-stack-kube-scheduler             ClusterIP   None            <none>        10259/TCP                       26m
-kube-system   kube-prometheus-stack-kubelet                    ClusterIP   None            <none>        10250/TCP,10255/TCP,4194/TCP    105m
-monitoring    alertmanager-operated                            ClusterIP   None            <none>        9093/TCP,9094/TCP,9094/UDP      26m
-monitoring    grafana-node-port-service                        NodePort    10.233.57.232   <none>        80:30577/TCP                    3s
-monitoring    kube-prometheus-stack-alertmanager               ClusterIP   10.233.54.92    <none>        9093/TCP,8080/TCP               26m
-monitoring    kube-prometheus-stack-grafana                    ClusterIP   10.233.50.129   <none>        80/TCP                          26m
-monitoring    kube-prometheus-stack-kube-state-metrics         ClusterIP   10.233.42.108   <none>        8080/TCP                        26m
-monitoring    kube-prometheus-stack-operator                   ClusterIP   10.233.60.208   <none>        443/TCP                         26m
-monitoring    kube-prometheus-stack-prometheus                 ClusterIP   10.233.47.178   <none>        9090/TCP,8080/TCP               26m
-monitoring    kube-prometheus-stack-prometheus-node-exporter   ClusterIP   10.233.53.212   <none>        9100/TCP                        26m
-monitoring    prometheus-operated                              ClusterIP   None            <none>        9090/TCP                        26m
-monitoring    prometheus-server-ext                            NodePort    10.233.36.75    <none>        9090:30023/TCP                  119s
+kubectl create namespace monitoring
+namespace/monitoring created
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
+NAME: kube-prometheus-stack
+LAST DEPLOYED: Tue Jul  2 09:53:18 2024
+NAMESPACE: monitoring
+STATUS: deployed
+REVISION: 1
+NOTES:
+kube-prometheus-stack has been installed. Check its status by running:
+  kubectl --namespace monitoring get pods -l "release=kube-prometheus-stack"
+
+Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
+kubectl expose service kube-prometheus-stack-grafana --type=NodePort --target-port=3000 --name=grafana-node-port-service -n monitoring
+service/grafana-node-port-service exposed
 ```
 
-![My Grafana k8s cluster dashboard](./IV.Monitoring/assets/Dashboard%20Grafana.png)
+
+
+1. Git репозиторий с конфигурационными файлами для настройки Kubernetes.
+
+[Файл kubeconfig](IV.Monitoring/kubeconfig)
+
+2. Http доступ к web интерфейсу grafana.
+
+[Доступ к интерфейсу grafana](http://158.160.146.180:30813/)
+
+3. Дашборды в grafana отображающие состояние Kubernetes кластера.
+
+![Дашборд Grafana](./assets/Grafana%20Dashboard.png)
+
+
+4. Http доступ к тестовому приложению.
+
+[Тестовое приложение](http://158.160.146.180:30180/)
+
+![Тестовое приложение](./assets/Test%20application.png)
+
 ---
 
 ### Установка и настройка CI/CD
@@ -222,21 +307,50 @@ monitoring    prometheus-server-ext                            NodePort    10.23
 Ожидаемый результат:
 
 1. Интерфейс ci/cd сервиса доступен по http.
+
+[CI/CD сервис в GitHub Actions](https://github.com/Muroway/logomaker-nginx/actions)
+
+[Пайплайн](https://github.com/Muroway/logomaker-nginx/blob/main/.github/workflows/docker-image.yml)
+
+![GitHub Actions](./assets/GitHub%20Actions%20CICD.png)
+
 2. При любом коммите в репозиторие с тестовым приложением происходит сборка и отправка в регистр Docker образа.
+
+![Сборка образа при пуше в main](./assets/Docker%20Image%20YC%20building%20.png)
+
 3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим label в регистри, а также деплой соответствующего Docker образа в кластер Kubernetes.
 
-[Репозиторий приложения](https://github.com/Muroway/logomaker-nginx)
+![Развертывание образа при пуше тега c указанием v*](./assets/Docker%20Image%20k8s%20deploy.png)
 
-[CI/CD pipeline для GitHub Actions](https://github.com/Muroway/logomaker-nginx/blob/main/.github/workflows/docker-image.yml)
 
 ---
 
 ## Что необходимо для сдачи задания?
 
 1. Репозиторий с конфигурационными файлами Terraform и готовность продемонстрировать создание всех ресурсов с нуля.
+[Репозиторий с конфигурацией Terraform](https://github.com/Muroway/devops-diplom-yandexcloud/tree/main/I.Terraform)
+
 2. Пример pull request с комментариями созданными atlantis'ом или снимки экрана из Terraform Cloud или вашего CI-CD-terraform pipeline.
+
+![Пуш в CICD](./assets/Push%20in%20CICD.png)
+
 3. Репозиторий с конфигурацией ansible, если был выбран способ создания Kubernetes кластера при помощи ansible.
+
+![Конфигурация hosts.yaml для ansible kubespray](https://github.com/Muroway/devops-diplom-yandexcloud/blob/main/II.K8s/hosts.yaml)
+
 4. Репозиторий с Dockerfile тестового приложения и ссылка на собранный docker image.
+
+[Репозиторий c Dockerfile](https://github.com/Muroway/logomaker-nginx/blob/main/Dockerfile)
+
 5. Репозиторий с конфигурацией Kubernetes кластера.
+
+
 6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
+
+[Тестовое приложение](https://github.com/Muroway/logomaker-nginx)
+
+[Интерфейс Grafana](http://158.160.146.180:30813/) логин/пароль по-умолчанию
+
 7. Все репозитории рекомендуется хранить на одном ресурсе (github, gitlab)
+
+[Мой диплом](https://github.com/Muroway/devops-diplom-yandexcloud/tree/main)

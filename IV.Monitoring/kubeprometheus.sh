@@ -12,11 +12,10 @@ kubectl create namespace monitoring
 helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
 
 
-Exposing Prometheus and Grafana using NodePort services
-Let's run the following command, to expose the Prometheus Kubernetes service
+# Exposing Prometheus and Grafana using NodePort services
+# Let's run the following command, to expose the Prometheus Kubernetes service
 
-kubectl expose service kube-prometheus-stack-prometheus --type=NodePort --target-port=9090 --name=prometheus-node-port-service
+kubectl expose service kube-prometheus-stack-prometheus --type=NodePort --target-port=9090 --name=prometheus-node-port-service -n monitoring
+kubectl expose service kube-prometheus-stack-grafana --type=NodePort --target-port=3000 --name=grafana-node-port-service -n monitoring
 
-kubectl expose service kube-prometheus-stack-grafana --type=NodePort --target-port=3000 --name=grafana-node-port-service
-
-ЗАХОДИТЬ на порты 30000+!!!
+# ЗАХОДИТЬ на порты 30000+!!!
