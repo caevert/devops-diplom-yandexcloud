@@ -1,6 +1,0 @@
-yc container registry create --name my-first-registry
-yc container registry configure-docker
-docker tag ubuntu \
-cr.yandex/crpc9qeoft23********/ubuntu:hello
-docker push \
-cr.yandex/crpc9qeoft23********/ubuntu:hello

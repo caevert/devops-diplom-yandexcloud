@@ -343,7 +343,7 @@ service/grafana-node-port-service exposed
 [Репозиторий c Dockerfile](https://github.com/Muroway/logomaker-nginx/blob/main/Dockerfile)
 
 5. Репозиторий с конфигурацией Kubernetes кластера.
-
+[Конфигурация](https://github.com/Muroway/devops-diplom-yandexcloud/blob/main/IV.Monitoring/kubeconfig)
 
 6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
 
