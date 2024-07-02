@@ -352,4 +352,4 @@ service/grafana-node-port-service exposed
 
 7. Все репозитории рекомендуется хранить на одном ресурсе (github, gitlab)
 
-[Мой диплом](https://github.com/Muroway/devops-diplom-yandexcloud/tree/main)
+[Мой диплом на GitHub](https://github.com/Muroway/devops-diplom-yandexcloud/tree/main)
