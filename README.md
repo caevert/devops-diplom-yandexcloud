@@ -39,13 +39,11 @@
 
 Предварительная подготовка к установке и запуску Kubernetes кластера.
 
-
 1. Создайте сервисный аккаунт, который будет в дальнейшем использоваться Terraform для работы с инфраструктурой с необходимыми и достаточными правами. Не стоит использовать права суперпользователя
 
 2. Подготовьте [backend](https://www.terraform.io/docs/language/settings/backends/index.html) для Terraform:  backends/configuration
    а. Рекомендуемый вариант: S3 bucket в созданном ЯО аккаунте(создание бакета через TF)
    б. Альтернативный вариант:  [Terraform Cloud](https://app.terraform.io/)
-
 
 3. Создайте VPC с подсетями в разных зонах доступности.
 4. Убедитесь, что теперь вы можете выполнить команды `terraform destroy` и `terraform apply` без дополнительных ручных действий.
@@ -269,8 +267,6 @@ kubectl expose service kube-prometheus-stack-grafana --type=NodePort --target-po
 service/grafana-node-port-service exposed
 ```
 
-
-
 1. Git репозиторий с конфигурационными файлами для настройки Kubernetes.
 
 [Файл kubeconfig](IV.Monitoring/kubeconfig)
@@ -282,7 +278,6 @@ service/grafana-node-port-service exposed
 3. Дашборды в grafana отображающие состояние Kubernetes кластера.
 
 ![Дашборд Grafana](./assets/Grafana%20Dashboard.png)
-
 
 4. Http доступ к тестовому приложению.
 
@@ -322,7 +317,6 @@ service/grafana-node-port-service exposed
 
 ![Развертывание образа при пуше тега c указанием v*](./assets/Docker%20Image%20k8s%20deploy.png)
 
-
 ---
 
 ## Что необходимо для сдачи задания?
@@ -343,7 +337,7 @@ service/grafana-node-port-service exposed
 [Репозиторий c Dockerfile](https://github.com/Muroway/logomaker-nginx/blob/main/Dockerfile)
 
 5. Репозиторий с конфигурацией Kubernetes кластера.
-[Конфигурация](https://github.com/Muroway/devops-diplom-yandexcloud/blob/main/IV.Monitoring/kubeconfig)
+[Конфигурация](https://github.com/Muroway/devops-diplom-yandexcloud/blob/main/II.K8s/kubeconfig)
 
 6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
 
