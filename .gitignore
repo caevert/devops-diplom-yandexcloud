@@ -2,3 +2,5 @@
 *.tfstate
 .terraform*
 key.json
+.terraform
+terraform.tfstate
